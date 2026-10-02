@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Publication } from '../types/publication';
 
-
 interface PublicationCardProps {
   publication: Publication;
   onOpenDetail: (publication: Publication) => void;
@@ -43,7 +42,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
               <line x1="11" y1="8" x2="11" y2="14"></line>
               <line x1="8" y1="11" x2="14" y2="11"></line>
             </svg>
-            Ver Afiche Completo
+            Ver Afiche en Grande
           </span>
         </div>
         <div className="pub-badges-top">
@@ -96,6 +95,12 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           {publication.description}
         </p>
 
+        {publication.infoNote && (
+          <div className="pub-info-note">
+            ℹ️ {publication.infoNote}
+          </div>
+        )}
+
         {publication.highlights && publication.highlights.length > 0 && (
           <div className="pub-highlights-row">
             {publication.highlights.slice(0, 3).map((item, idx) => (
@@ -110,14 +115,16 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           <span className="pub-org-text">
             {publication.organization}
           </span>
+          {/* Botón no funcional de redirección según lo solicitado */}
           <button
-            className="pub-card-action-btn"
+            type="button"
+            className="pub-card-action-btn blank-btn"
             onClick={(e) => {
               e.stopPropagation();
               onOpenDetail(publication);
             }}
           >
-            Detalles & Afiche →
+            Ver Afiche →
           </button>
         </div>
       </div>

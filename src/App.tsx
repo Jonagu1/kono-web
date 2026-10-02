@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { initialPublications } from './data/publications';
 import type { Publication, Category, Campus } from './types/publication';
-
 import { Header } from './components/Header';
 import { HeroBanner } from './components/HeroBanner';
+import { CalendarWidget } from './components/CalendarWidget';
 import { FilterBar } from './components/FilterBar';
 import { PublicationCard } from './components/PublicationCard';
 import { PublicationModal } from './components/PublicationModal';
@@ -31,12 +31,20 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<Category>('Todas');
   const [selectedCampus, setSelectedCampus] = useState<Campus>('Todos');
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedPublication, setSelectedPublication] = useState<Publication | null>(null);
   const [isAdminInfoOpen, setIsAdminInfoOpen] = useState(false);
 
-  // Filter publications based on search, category and campus
+  // Filter publications based on search, category, campus, and calendar date
   const filteredPublications = useMemo(() => {
     return publications.filter((pub) => {
+      // Date filter from Calendar
+      if (selectedDate !== null) {
+        if (!pub.eventDates.includes(selectedDate)) {
+          return false;
+        }
+      }
+
       // Category filter
       if (selectedCategory !== 'Todas' && pub.category !== selectedCategory) {
         return false;
@@ -64,12 +72,13 @@ function App() {
 
       return true;
     });
-  }, [publications, selectedCategory, selectedCampus, searchQuery]);
+  }, [publications, selectedDate, selectedCategory, selectedCampus, searchQuery]);
 
   const handleResetFilters = () => {
     setSearchQuery('');
     setSelectedCategory('Todas');
     setSelectedCampus('Todos');
+    setSelectedDate(null);
   };
 
   return (
@@ -83,42 +92,65 @@ function App() {
       <main>
         <HeroBanner totalPosts={publications.length} />
 
-        <div className="filter-bar-container">
-          <FilterBar
-            categories={CATEGORIES}
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
-            campuses={CAMPUSES}
-            selectedCampus={selectedCampus}
-            onSelectCampus={setSelectedCampus}
-            filteredCount={filteredPublications.length}
-          />
-        </div>
+        <div className="portal-layout">
+          {/* Sidebar: Interactive Calendar Widget & Info */}
+          <aside className="portal-sidebar">
+            <CalendarWidget
+              publications={publications}
+              selectedDate={selectedDate}
+              onSelectDate={setSelectedDate}
+            />
 
-        <section className="main-content">
-          {filteredPublications.length > 0 ? (
-            <div className="publications-grid">
-              {filteredPublications.map((pub) => (
-                <PublicationCard
-                  key={pub.id}
-                  publication={pub}
-                  onOpenDetail={setSelectedPublication}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="empty-state">
-              <div className="empty-state-icon">🔍</div>
-              <h3>No se encontraron publicaciones</h3>
+            <div className="sidebar-info-card">
+              <h4>🔒 Portal de Solo Lectura</h4>
               <p>
-                No hay afiches que coincidan con los filtros seleccionados o el término de búsqueda.
+                Los anuncios son oficiales y verificados por el Club de Innovación y Emprendimiento UACh. No contiene enlaces externos de redirección ni formularios de terceros.
               </p>
-              <button className="reset-filters-btn" onClick={handleResetFilters}>
-                Restablecer todos los filtros
-              </button>
             </div>
-          )}
-        </section>
+          </aside>
+
+          {/* Right Column: Filter Bar & Publications Grid */}
+          <section className="portal-main-feed">
+            <FilterBar
+              categories={CATEGORIES}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+              campuses={CAMPUSES}
+              selectedCampus={selectedCampus}
+              onSelectCampus={setSelectedCampus}
+              filteredCount={filteredPublications.length}
+            />
+
+            {filteredPublications.length > 0 ? (
+              <div className="publications-grid">
+                {filteredPublications.map((pub) => (
+                  <PublicationCard
+                    key={pub.id}
+                    publication={pub}
+                    onOpenDetail={setSelectedPublication}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state">
+                <div className="empty-state-icon">📅</div>
+                <h3>No hay publicaciones para estos filtros</h3>
+                <p>
+                  {selectedDate
+                    ? `No se encontraron eventos para el día ${selectedDate}.`
+                    : 'Intenta cambiar de categoría o borrar la búsqueda.'}
+                </p>
+                <button
+                  type="button"
+                  className="reset-filters-btn"
+                  onClick={handleResetFilters}
+                >
+                  Restablecer todos los filtros
+                </button>
+              </div>
+            )}
+          </section>
+        </div>
       </main>
 
       <PublicationModal

@@ -18,17 +18,15 @@ export interface Publication {
   organization: string;
   category: Exclude<Category, 'Todas'>;
   date: string;
+  eventDates: string[]; // Formato YYYY-MM-DD para el calendario
   time?: string;
   location: string;
   campus: Exclude<Campus, 'Todos'>;
   description: string;
   highlights?: string[];
   image: string;
-  actionLink?: {
-    url: string;
-    label: string;
-  };
   tags: string[];
   featured?: boolean;
   isRecent?: boolean;
+  infoNote?: string; // Nota informativa en lugar de enlaces externos
 }

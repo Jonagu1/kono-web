@@ -1,13 +1,15 @@
 import type { Publication } from '../types/publication';
-
+import ingeniaLabImg from '../assets/posts/ingenia-lab.jpg';
+import clubInnovacionImg from '../assets/posts/club-innovacion-sostenible.png';
+import campeonatoJudoImg from '../assets/posts/campeonato-judo.jpg';
+import sesionMindfulnessImg from '../assets/posts/sesion-mindfulness.png';
 
 /**
  * Publicaciones oficiales del portal de Información Universitaria.
+ * Las imágenes son importadas directamente como módulos para garantizar
+ * que Vite procese y emita las rutas relativas correctas en GitHub Pages.
  * 
- * ¿CÓMO AGREGAR NUEVAS PUBLICACIONES FUERA DE LA PÁGINA PRINCIPAL?
- * Simplemente envía la imagen o afiche con los detalles por el chat del asistente AI.
- * El asistente guardará la imagen en public/posts/ e insertará un nuevo objeto aquí.
- * El público no tiene permisos para subir publicaciones desde la web.
+ * Sin links externos: las acciones de redirección se mantienen no funcionales.
  */
 export const initialPublications: Publication[] = [
   {
@@ -16,7 +18,8 @@ export const initialPublications: Publication[] = [
     subtitle: '¿Tienes un proyecto tecnológico en marcha?',
     organization: 'Facultad de Ciencias de la Ingeniería · UACh',
     category: 'Emprendimiento',
-    date: 'Viernes 4 de Septiembre',
+    date: 'Viernes 4 de Septiembre 2026',
+    eventDates: ['2026-09-04'],
     time: '15:30 hrs',
     location: 'Centro de i+e 14K, Campus Miraflores, Valdivia',
     campus: 'Campus Miraflores',
@@ -27,11 +30,8 @@ export const initialPublications: Publication[] = [
       'Instancias de networking',
       'Mentorías personalizadas 1 a 1'
     ],
-    image: '/posts/ingenia-lab.jpg',
-    actionLink: {
-      url: 'https://luma.com/6tds0934',
-      label: 'Inscribirse en Luma'
-    },
+    image: ingeniaLabImg,
+    infoNote: 'Convocatoria y postulación presencial en Espacio 14K',
     tags: ['IngeniaLab', 'Preincubación', '14K', 'InnovING 2030', 'ANID', 'Emprendimiento'],
     featured: true,
     isRecent: true
@@ -43,6 +43,16 @@ export const initialPublications: Publication[] = [
     organization: 'Club de Innovación Sostenible · Facultad de Ciencias de la Ingeniería UACh',
     category: 'Club',
     date: 'Todos los Lunes',
+    eventDates: [
+      '2026-09-07',
+      '2026-09-14',
+      '2026-09-21',
+      '2026-09-28',
+      '2026-10-05',
+      '2026-10-12',
+      '2026-10-19',
+      '2026-10-26'
+    ],
     time: '15:50 hrs',
     location: 'Espacio 14K Miraflores',
     campus: 'Campus Miraflores',
@@ -53,11 +63,8 @@ export const initialPublications: Publication[] = [
       'Reuniones semanales en el 14K',
       'Comunidad interdisciplinaria'
     ],
-    image: '/posts/club-innovacion-sostenible.png',
-    actionLink: {
-      url: 'https://instagram.com',
-      label: 'Saber más del Club'
-    },
+    image: clubInnovacionImg,
+    infoNote: 'Encuentros abiertos cada lunes en el 14K',
     tags: ['Club de Innovación', 'Sostenibilidad', 'Espacio 14K', 'Miraflores', 'UACh'],
     featured: true,
     isRecent: true
@@ -68,8 +75,9 @@ export const initialPublications: Publication[] = [
     subtitle: 'Edición 2026 · Organizado por la UACh',
     organization: 'FENAUDE Chile & Universidad Austral de Chile',
     category: 'Deportes',
-    date: '1 y 2 de Octubre',
-    time: 'Jornada Deportiva',
+    date: '1 y 2 de Octubre 2026',
+    eventDates: ['2026-10-01', '2026-10-02'],
+    time: 'Jornada Deportiva Completa',
     location: 'Gimnasio Universitario UACh, Valdivia',
     campus: 'Valdivia',
     description: 'Más de 160 estudiantes deportistas, representantes de 15 instituciones de educación superior de todo el país, participarán este 1 y 2 de octubre en el Campeonato Nacional Universitario (CNU) de Judo.',
@@ -79,11 +87,8 @@ export const initialPublications: Publication[] = [
       'Entrada liberada para la comunidad universitaria',
       'Auspiciado por Molten, Macron y Mitre'
     ],
-    image: '/posts/campeonato-judo.jpg',
-    actionLink: {
-      url: 'https://www.fenaude.cl',
-      label: 'Visitar fenaude.cl'
-    },
+    image: campeonatoJudoImg,
+    infoNote: 'Entrada liberada al Gimnasio Universitario UACh',
     tags: ['Judo', 'CNU 2026', 'FENAUDE', 'Deporte Universitario', 'Valdivia', 'UACh'],
     featured: false,
     isRecent: false
@@ -94,7 +99,8 @@ export const initialPublications: Publication[] = [
     subtitle: '¡No necesitas experiencia previa!',
     organization: 'Centro de Salud Universitario · UACh',
     category: 'Salud & Bienestar',
-    date: 'Lunes 5 de Octubre',
+    date: 'Lunes 5 de Octubre 2026',
+    eventDates: ['2026-10-05'],
     time: '13:00 a 14:00 hrs',
     location: 'Sala Espejos, Campus Isla Teja',
     campus: 'Campus Isla Teja',
@@ -105,11 +111,8 @@ export const initialPublications: Publication[] = [
       'Enfoque en salud mental universitaria',
       'Ubicación central en Isla Teja'
     ],
-    image: '/posts/sesion-mindfulness.png',
-    actionLink: {
-      url: '#',
-      label: 'Más información'
-    },
+    image: sesionMindfulnessImg,
+    infoNote: 'Acceso libre en Sala Espejos (Isla Teja)',
     tags: ['Mindfulness', 'Salud Mental', 'Campus Isla Teja', 'Bienestar UACh'],
     featured: false,
     isRecent: true

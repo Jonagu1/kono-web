@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { Publication } from '../types/publication';
 
-
 interface PublicationModalProps {
   publication: Publication | null;
   onClose: () => void;
@@ -65,7 +64,7 @@ export const PublicationModal: React.FC<PublicationModalProps> = ({
                     <polyline points="15 3 21 3 21 9"></polyline>
                     <line x1="10" y1="14" x2="21" y2="3"></line>
                   </svg>
-                  Abrir afiche original en alta resolución
+                  Ver afiche en pestaña completa
                 </a>
               </div>
             </div>
@@ -112,14 +111,21 @@ export const PublicationModal: React.FC<PublicationModalProps> = ({
               </div>
             </div>
 
+            {publication.infoNote && (
+              <div className="modal-info-highlight-box">
+                <span className="info-icon">📢</span>
+                <span>{publication.infoNote}</span>
+              </div>
+            )}
+
             <div className="modal-section-block">
-              <h5 className="modal-section-title">Descripción y Objetivos</h5>
+              <h5 className="modal-section-title">Descripción y Convocatoria</h5>
               <p className="modal-description-text">{publication.description}</p>
             </div>
 
             {publication.highlights && publication.highlights.length > 0 && (
               <div className="modal-section-block">
-                <h5 className="modal-section-title">Lo que incluye este evento / convocatoria:</h5>
+                <h5 className="modal-section-title">Detalles del anuncio:</h5>
                 <ul className="modal-highlights-list">
                   {publication.highlights.map((h, i) => (
                     <li key={i}>
@@ -136,27 +142,21 @@ export const PublicationModal: React.FC<PublicationModalProps> = ({
               ))}
             </div>
 
+            {/* Botones de acción sin links externos */}
             <div className="modal-cta-group">
-              {publication.actionLink && publication.actionLink.url !== '#' ? (
-                <a
-                  href={publication.actionLink.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="modal-action-btn primary"
-                >
-                  {publication.actionLink.label}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </a>
-              ) : (
-                <button className="modal-action-btn secondary-btn" disabled>
-                  Convocatoria Presencial Abierta
-                </button>
-              )}
+              <button
+                type="button"
+                className="modal-action-btn blank-action-btn"
+                title="Botón informativo sin enlace externo"
+              >
+                <span>Convocatoria Oficial Presencial</span>
+              </button>
 
-              <button className="modal-copy-btn" onClick={handleCopyLink}>
+              <button
+                type="button"
+                className="modal-copy-btn"
+                onClick={handleCopyLink}
+              >
                 {copied ? '✓ Enlace Copiado' : '🔗 Compartir'}
               </button>
             </div>
